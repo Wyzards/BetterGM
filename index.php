@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
     <title>BetterGM Schedule Writer</title>
+    <script type="text/javascript" src="../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../scripts/javascript.js"></script>
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 
@@ -12,8 +13,21 @@
     require __DIR__ . '/database/database.php';
     create_tables();
     ?>
-    <h1>Better GM</h1>
 
+    <div id="add-employee-modal" class="modal">
+        <span id="span">
+            <input type="text" placeholder="Name...">
+            <label>Role:</label>
+            <select>
+                <option>Crew</option>
+                <option>Cashier</option>
+            </select>
+            <button>Submit</button>
+        </span>
+    </div>
+
+    <h1>Better GM</h1>
+    <button onclick="addEmployee()">Add Employee</button>
     <table>
         <th>Employee</th>
         <th>Mon 10/30</th>
