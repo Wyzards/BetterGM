@@ -12,22 +12,23 @@
     <?php
     require __DIR__ . '/database/database.php';
     create_tables();
+
+    $employees = get_employees();
     ?>
 
     <div id="add-employee-modal" class="modal">
         <span id="span">
-            <input type="text" placeholder="Name...">
+            <input id="add-employee-name-input" type="text" placeholder="Name...">
             <label>Role:</label>
-            <select>
-                <option>Crew</option>
-                <option>Cashier</option>
+            <select id="add-employee-role-select">
+                <!-- Options added from PHP Enum w/ JS -->
             </select>
-            <button>Submit</button>
+            <button onclick="submitAddEmployee()">Submit</button>
         </span>
     </div>
 
     <h1>Better GM</h1>
-    <button onclick="addEmployee()">Add Employee</button>
+    <button onclick="clickAddEmployee()">Add Employee</button>
     <table>
         <th>Employee</th>
         <th>Mon 10/30</th>
@@ -40,7 +41,11 @@
 
         <?php foreach ($employees as $employee): ?>
             <tr> <!-- RYAN -->
-                <td>Ryan Stark</td>
+                <td>
+                    <?php
+                    echo strtr("<p class='employee-name' data-emp-id='@emp-id' onclick='showEmpInfo(this)'>@emp-name</p>", ["@emp-id" => $employee["emp-id"], "@emp-name" => $employee["name"]]);
+                    ?>
+                </td>
                 <td></td>
                 <td></td>
                 <td>10:00AM-8:00PM</td>
