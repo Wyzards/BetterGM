@@ -5,7 +5,7 @@ $(document).ready(function () {
     }
 
     $.post({
-        url: "../database/database.php",
+        url: "../database/ajax.php",
         data: { FUNCTION: "GET_ROLE_LIST" },
         success: function (response) {
             var roles = JSON.parse(response);
@@ -16,10 +16,37 @@ $(document).ready(function () {
     });
 });
 
+const Roles = Object.freeze({
+    CREW: Symbol(0),
+    CASHIER: Symbol(1),
+    BOH_TRAINER: Symbol(2),
+    FOH_TRAINER: Symbol(3),
+    KL: Symbol(4),
+    SL: Symbol(5),
+    AP: Symbol(6),
+    GM: Symbol(7),
+    R: Symbol(8),
+    CTM: Symbol(9)
+});
+
 function showEmpInfo(Emp) {
     var emp_id = $(Emp).data("emp-id");
 
-    console.log(emp_id);
+    getEmpDataPromise(emp_id).then(data => {
+        //var employee = JSON.parse(data);
+        console.log(data);
+        //$("#show-emp-modal-name").text("Name: " + employee["name"]);
+        //$("#show-emp-modal-role").text("Role: " + employee["role_id"]);
+    });
+
+    $("#show-employee-modal").css("display", "flex");
+}
+
+function getEmpDataPromise(emp_id) {
+    return $.post({
+        url: "../database/ajax.php",
+        data: { FUNCTION: "GET_EMPLOYEE", emp_id: emp_id }
+    });
 }
 
 function clickAddEmployee() {
@@ -33,7 +60,7 @@ function submitAddEmployee() {
     var data = { FUNCTION: "ADD_EMPLOYEE", name: name, role_name: role_name };
 
     $.post({
-        url: "../database/database.php",
+        url: "../database/ajax.php",
         data: data,
         success: function (response) {
             result = JSON.parse(response);

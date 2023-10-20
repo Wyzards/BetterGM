@@ -10,10 +10,10 @@
 
 <body>
     <?php
-    require __DIR__ . '/database/database.php';
-    create_tables();
+    require __DIR__ . "/database/Database.php";
 
-    $employees = get_employees();
+    $database = Database::getInstance();
+    $employees = $database->get_employees();
     ?>
 
     <div id="add-employee-modal" class="modal">
@@ -26,6 +26,14 @@
             <button onclick="submitAddEmployee()">Submit</button>
         </span>
     </div>
+
+    <div id="show-employee-modal" class="modal">
+        <span id="span">
+            <p id="show-emp-modal-name">Name:</p>
+            <p id="show-emp-modal-role">Role:</p>
+        </span>
+    </div>
+
 
     <h1>Better GM</h1>
     <button onclick="clickAddEmployee()">Add Employee</button>
@@ -43,16 +51,14 @@
             <tr> <!-- RYAN -->
                 <td>
                     <?php
-                    echo strtr("<p class='employee-name' data-emp-id='@emp-id' onclick='showEmpInfo(this)'>@emp-name</p>", ["@emp-id" => $employee["emp-id"], "@emp-name" => $employee["name"]]);
+                    echo strtr("<p class='employee-name' data-emp-id='@emp-id' onclick='showEmpInfo(this)'>@emp-name</p>", ["@emp-id" => $employee["emp_id"], "@emp-name" => $employee["name"]]);
                     ?>
                 </td>
-                <td></td>
-                <td></td>
-                <td>10:00AM-8:00PM</td>
-                <td>10:00AM-8:00PM</td>
-                <td>10:00AM-8:00PM</td>
-                <td>10:00AM-8:00PM</td>
-                <td>10:00AM-8:00PM</td>
+
+                <?php
+                for ($x = 0; $x < 7; $x++) {
+                    echo "<td></td>";
+                } ?>
             </tr>
         <?php endforeach ?>
     </table>
