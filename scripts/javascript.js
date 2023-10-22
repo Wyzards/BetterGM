@@ -1,24 +1,28 @@
 import { Role } from "./role.js";
 
 $(document).ready(function () {
-    $(".employee-name").click(function () { showEmpInfo(this); });
-    $("#submit-add-employee-button").click(submitAddEmployee);
-    $("#add-employee-button").click(clickAddEmployee);
+    updateTable().then(function () {
+        $(".employee-name").click(function () { showEmpInfo(this); });
+        $("#submit-add-employee-button").click(submitAddEmployee);
+        $("#add-employee-button").click(clickAddEmployee);
 
-    window.onclick = function (event) {
-        if (event.target == document.getElementById("add-employee-modal"))
-            $("#add-employee-modal").css("display", "none");
-    }
-
-    $.post({
-        url: "../database/ajax.php",
-        data: { FUNCTION: "GET_ROLE_LIST" },
-        success: function (response) {
-            var roles = JSON.parse(response);
-            roles.forEach((role, i) => {
-                $("#add-employee-role-select").append("<option>" + role + "</option>");
-            });
+        window.onclick = function (event) {
+            if ($(event.target).is($("#add-employee-modal")))
+                $("#add-employee-modal").css("display", "none");
+            if ($(event.target).is($("#show-employee-modal")))
+                $("#show-employee-modal").css("display", "none");
         }
+
+        $.post({
+            url: "../database/ajax.php",
+            data: { FUNCTION: "GET_ROLE_LIST" },
+            success: function (response) {
+                var roles = JSON.parse(response);
+                roles.forEach((role, i) => {
+                    $("#add-employee-role-select").append("<option>" + role + "</option>");
+                });
+            }
+        });
     });
 });
 
@@ -55,10 +59,23 @@ function submitAddEmployee() {
         url: "../database/ajax.php",
         data: data,
         success: function (response) {
-            var result = JSON.parse(response);
-
-            if (result["response"] == "invalid role")
+            if (JSON.parse(response)["response"] == "invalid role")
                 alert("Something went wrong: The role you tried to set does not exist. Refresh the page and try again.");
+            else {
+                $("#add-employee-modal").css("display", "none");
+                updateTable();
+            }
+        }
+    });
+}
+
+function updateTable() {
+    return $.post({
+        url: '../database/ajax.php',
+        dataType: 'json',
+        data: { FUNCTION: "GET_TABLE" },
+        success: function (response) {
+            $("#schedule").html(response);
         }
     });
 }
