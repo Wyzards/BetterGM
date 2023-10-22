@@ -1,4 +1,10 @@
+import { Role } from "./role.js";
+
 $(document).ready(function () {
+    $(".employee-name").click(function () { showEmpInfo(this); });
+    $("#submit-add-employee-button").click(submitAddEmployee);
+    $("#add-employee-button").click(clickAddEmployee);
+
     window.onclick = function (event) {
         if (event.target == document.getElementById("add-employee-modal"))
             $("#add-employee-modal").css("display", "none");
@@ -16,27 +22,13 @@ $(document).ready(function () {
     });
 });
 
-const Roles = Object.freeze({
-    CREW: Symbol(0),
-    CASHIER: Symbol(1),
-    BOH_TRAINER: Symbol(2),
-    FOH_TRAINER: Symbol(3),
-    KL: Symbol(4),
-    SL: Symbol(5),
-    AP: Symbol(6),
-    GM: Symbol(7),
-    R: Symbol(8),
-    CTM: Symbol(9)
-});
-
 function showEmpInfo(Emp) {
     var emp_id = $(Emp).data("emp-id");
 
     getEmpDataPromise(emp_id).then(data => {
-        //var employee = JSON.parse(data);
-        console.log(data);
-        //$("#show-emp-modal-name").text("Name: " + employee["name"]);
-        //$("#show-emp-modal-role").text("Role: " + employee["role_id"]);
+        var employee = JSON.parse(data);
+        $("#show-emp-modal-name").text("Name: " + employee["name"]);
+        $("#show-emp-modal-role").text("Role: " + Role[employee["role"]]);
     });
 
     $("#show-employee-modal").css("display", "flex");
@@ -63,7 +55,7 @@ function submitAddEmployee() {
         url: "../database/ajax.php",
         data: data,
         success: function (response) {
-            result = JSON.parse(response);
+            var result = JSON.parse(response);
 
             if (result["response"] == "invalid role")
                 alert("Something went wrong: The role you tried to set does not exist. Refresh the page and try again.");

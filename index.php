@@ -4,7 +4,7 @@
 <head>
     <title>BetterGM Schedule Writer</title>
     <script type="text/javascript" src="../scripts/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="../scripts/javascript.js"></script>
+    <script type="module" src="../scripts/javascript.js"></script>
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 
@@ -23,7 +23,7 @@
             <select id="add-employee-role-select">
                 <!-- Options added from PHP Enum w/ JS -->
             </select>
-            <button onclick="submitAddEmployee()">Submit</button>
+            <button id="submit-add-employee-button">Submit</button>
         </span>
     </div>
 
@@ -36,7 +36,7 @@
 
 
     <h1>Better GM</h1>
-    <button onclick="clickAddEmployee()">Add Employee</button>
+    <button id="add-employee-button">Add Employee</button>
     <table>
         <th>Employee</th>
         <th>Mon 10/30</th>
@@ -51,7 +51,7 @@
             <tr> <!-- RYAN -->
                 <td>
                     <?php
-                    echo strtr("<p class='employee-name' data-emp-id='@emp-id' onclick='showEmpInfo(this)'>@emp-name</p>", ["@emp-id" => $employee["emp_id"], "@emp-name" => $employee["name"]]);
+                    echo strtr("<p class='employee-name' data-emp-id='@emp-id'>@emp-name</p>", ["@emp-id" => $employee["emp_id"], "@emp-name" => $employee["name"]]);
                     ?>
                 </td>
 
