@@ -1,4 +1,5 @@
 import { Role } from "./role.js";
+import { Database } from "./database.js";
 
 $(document).ready(function () {
     updateTable().then(function () {
@@ -28,26 +29,22 @@ $(document).ready(function () {
 });
 
 function removeEmployee(Emp) {
-
+    var database = Database.getInstance();
+    database.getEmployee($(Emp).data("emp-id")).then(employee => {
+        database.removeEmployee(employee);
+        updateTable();
+    });
 }
 
 function showEmpInfo(Emp) {
     var emp_id = $(Emp).data("emp-id");
-
-    getEmpDataPromise(emp_id).then(data => {
-        var employee = JSON.parse(data);
+    var database = Database.getInstance();
+    database.getEmployee(emp_id).then(employee => {
         $("#show-emp-modal-name").text("Name: " + employee["name"]);
-        $("#show-emp-modal-role").text("Role: " + JSON.parse(Role.tryFrom([employee["role"]]))["name"]);
+        $("#show-emp-modal-role").text("Role: " + employee["role"]["name"]);
     });
 
     $("#show-employee-modal").css("display", "flex");
-}
-
-function getEmpDataPromise(emp_id) {
-    return $.post({
-        url: "../database/ajax.php",
-        data: { FUNCTION: "GET_EMPLOYEE", emp_id: emp_id }
-    });
 }
 
 function clickAddEmployee() {
