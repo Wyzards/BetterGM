@@ -3,17 +3,13 @@ import { Role } from "./role.js";
 
 class Database {
 
-    static instance;
-
-    constructor() {
-
-    }
+    static #instance;
 
     static getInstance() {
-        if (!Database.instance)
-            Database.instance = new Database();
+        if (!Database.#instance)
+            Database.#instance = new Database();
 
-        return Database.instance;
+        return Database.#instance;
     }
 
     removeEmployee(employee) {
@@ -27,7 +23,7 @@ class Database {
                 data: { FUNCTION: "GET_EMPLOYEE", emp_id: emp_id },
                 success: function (response) {
                     let empData = JSON.parse(response);
-                    let employee = new Employee(empData["emp_id"], empData["name"], Role.tryFrom(empData["role"]));
+                    let employee = new Employee(empData["emp_id"], empData["name"], Role.tryFromID(empData["role"]));
                     resolve(employee);
                 }
             });

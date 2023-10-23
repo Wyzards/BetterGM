@@ -40,8 +40,8 @@ function showEmpInfo(Emp) {
     var emp_id = $(Emp).data("emp-id");
     var database = Database.getInstance();
     database.getEmployee(emp_id).then(employee => {
-        $("#show-emp-modal-name").text("Name: " + employee["name"]);
-        $("#show-emp-modal-role").text("Role: " + employee["role"]["name"]);
+        $("#show-emp-modal-name").text("Name: " + employee.name);
+        $("#show-emp-modal-role").text("Role: " + employee.role.name);
     });
 
     $("#show-employee-modal").css("display", "flex");
