@@ -5,6 +5,7 @@ $(document).ready(function () {
         $(".employee-name").click(function () { showEmpInfo(this); });
         $("#submit-add-employee-button").click(submitAddEmployee);
         $("#add-employee-button").click(clickAddEmployee);
+        $("#remove-employee-button").click(function () { removeEmployee(this); });
 
         window.onclick = function (event) {
             if ($(event.target).is($("#add-employee-modal")))
@@ -26,13 +27,17 @@ $(document).ready(function () {
     });
 });
 
+function removeEmployee(Emp) {
+
+}
+
 function showEmpInfo(Emp) {
     var emp_id = $(Emp).data("emp-id");
 
     getEmpDataPromise(emp_id).then(data => {
         var employee = JSON.parse(data);
         $("#show-emp-modal-name").text("Name: " + employee["name"]);
-        $("#show-emp-modal-role").text("Role: " + Role[employee["role"]]);
+        $("#show-emp-modal-role").text("Role: " + JSON.parse(Role.tryFrom([employee["role"]]))["name"]);
     });
 
     $("#show-employee-modal").css("display", "flex");
