@@ -3,11 +3,6 @@ import { Database } from "./database.js";
 
 $(document).ready(function () {
     updateTable().then(function () {
-        $(".employee-name").click(function () { showEmpInfo(this); });
-        $("#submit-add-employee-button").click(submitAddEmployee);
-        $("#add-employee-button").click(clickAddEmployee);
-        $("#remove-employee-button").click(function () { removeEmployee(this); });
-
         window.onclick = function (event) {
             if ($(event.target).is($("#add-employee-modal")))
                 $("#add-employee-modal").css("display", "none");
@@ -30,7 +25,8 @@ $(document).ready(function () {
 
 function removeEmployee(Emp) {
     var database = Database.getInstance();
-    database.getEmployee($(Emp).data("emp-id")).then(employee => {
+    database.getEmployee($(Emp).data("emp_id")).then(employee => {
+        console.log("removeEmployee() employee = " + employee);
         database.removeEmployee(employee);
         updateTable();
     });
@@ -42,6 +38,7 @@ function showEmpInfo(Emp) {
     database.getEmployee(emp_id).then(employee => {
         $("#show-emp-modal-name").text("Name: " + employee.name);
         $("#show-emp-modal-role").text("Role: " + employee.role.name);
+        $("#remove-employee-button").data("emp_id", emp_id);
     });
 
     $("#show-employee-modal").css("display", "flex");
@@ -78,6 +75,13 @@ function updateTable() {
         data: { FUNCTION: "GET_TABLE" },
         success: function (response) {
             $("#schedule").html(response);
+            $(".employee-name,#submit-add-employee-button,#add-employee-button,#remove-employee-button").off();
+            $(".employee-name").click(function () { showEmpInfo(this); });
+            $("#submit-add-employee-button").click(submitAddEmployee);
+            $("#add-employee-button").click(clickAddEmployee);
+            $("#remove-employee-button").click(function () { removeEmployee(this); });
         }
     });
 }
+
+export { updateTable };

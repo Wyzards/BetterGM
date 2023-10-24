@@ -9,7 +9,6 @@ class Role {
     static GM = new Role(7, "GM");
     static R = new Role(8, "R");
     static CTM = new Role(9, "CTM");
-    //static roles = [Role.CREW, Role.CASHIER, Role.FOH_TRAINER, Role.BOH_TRAINER, Role.KL, Role.SL, Role.AP, Role.GM, Role.R, Role.CTM];
 
     #id;
     #name;
@@ -51,7 +50,5 @@ class Role {
         return JSON.stringify({ type: "role", id: this.#id, name: this.#name });
     }
 }
-
-// 106145
 
 export { Role };

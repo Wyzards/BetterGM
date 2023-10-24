@@ -1,5 +1,5 @@
 <?php
-enum Role: int
+enum Role: int implements \JsonSerializable
 {
     case CREW = 0;
     case CASHIER = 1;
@@ -18,6 +18,11 @@ enum Role: int
             if ($case->name === $role_name)
                 return $case;
         return null;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }
 ?>

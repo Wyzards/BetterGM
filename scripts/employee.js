@@ -1,12 +1,16 @@
 class Employee {
-    #id;
+    #emp_id;
     #name;
     #role;
 
-    constructor(id, name, role) {
-        this.#id = id;
+    constructor(emp_id, name, role) {
+        this.#emp_id = emp_id;
         this.#name = name;
         this.#role = role;
+    }
+
+    get emp_id() {
+        return this.#emp_id;
     }
 
     get name() {
@@ -18,7 +22,7 @@ class Employee {
     }
 
     toString() {
-        return JSON.stringify({ type: "employee", emp_id: this.#id, name: this.#name, role: this.#role });
+        return JSON.stringify({ type: "employee", emp_id: this.#emp_id, name: this.#name, role: JSON.stringify(this.#role) });
     }
 }
 

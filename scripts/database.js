@@ -1,5 +1,6 @@
 import { Employee } from "./employee.js";
 import { Role } from "./role.js";
+import { updateTable } from "./javascript.js";
 
 class Database {
 
@@ -13,7 +14,15 @@ class Database {
     }
 
     removeEmployee(employee) {
-        console.log("HAVENT IMPLEMENTED REMOVE EMPLOYEE YET");
+        $.post({
+            url: "../database/ajax.php",
+            data: { FUNCTION: "DELETE_EMPLOYEE", emp_id: employee.emp_id },
+            success: result => {
+                console.log(result);
+            }
+        });
+        $("#show-employee-modal").css("display", "none");
+        updateTable();
     }
 
     getEmployee(emp_id) {
@@ -23,7 +32,7 @@ class Database {
                 data: { FUNCTION: "GET_EMPLOYEE", emp_id: emp_id },
                 success: function (response) {
                     let empData = JSON.parse(response);
-                    let employee = new Employee(empData["emp_id"], empData["name"], Role.tryFromID(empData["role"]));
+                    let employee = new Employee(empData["emp_id"], empData["name"], Role.tryFromID(empData["role"]["value"]));
                     resolve(employee);
                 }
             });
