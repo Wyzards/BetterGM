@@ -22,6 +22,9 @@
         <span id="span">
             <p id="show-emp-modal-name">Name:</p>
             <p id="show-emp-modal-role">Role:</p>
+            <p>Jobs:</p>
+            <ul id="employee-jobs-list">
+            </ul>
             <button id="remove-employee-button">Remove Employee</button>
         </span>
     </div>

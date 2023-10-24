@@ -2,11 +2,13 @@ class Employee {
     #emp_id;
     #name;
     #role;
+    #jobs;
 
-    constructor(emp_id, name, role) {
+    constructor(emp_id, name, role, jobs) {
         this.#emp_id = emp_id;
         this.#name = name;
         this.#role = role;
+        this.#jobs = jobs;
     }
 
     get emp_id() {
@@ -19,6 +21,10 @@ class Employee {
 
     get role() {
         return this.#role;
+    }
+
+    get jobs() {
+        return this.#jobs;
     }
 
     toString() {
