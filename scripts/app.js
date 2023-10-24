@@ -24,9 +24,23 @@ class App {
             window.onclick = function (event) {
                 if ($(event.target).is($("#add-employee-modal")))
                     $("#add-employee-modal").css("display", "none");
-                if ($(event.target).is($("#show-employee-modal")))
+                if ($(event.target).is($("#show-employee-modal"))) {
                     $("#show-employee-modal").css("display", "none");
+                    $("#employee-jobs-select").css("display", "none");
+                    $("#employee-jobs-list").css("display", "flex");
+                    $("#edit-jobs-button").css("display", "flex");
+                    $("#save-jobs-button").css("display", "none");
+                }
             }
+
+            $("#submit-add-employee-button").click(() => { App.getInstance().submitAddEmployee() });
+            $("#add-employee-button").click(() => { $("#add-employee-modal").css("display", "flex"); });
+            $("#remove-employee-button").click(function () { App.getInstance().removeEmployee(this); });
+            $("#edit-jobs-button").click(function () { App.getInstance().editJobs(this) });
+            $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection(this) });
+
+
+            
 
             $.post({
                 url: "../database/ajax.php",
@@ -54,6 +68,7 @@ class App {
                 $("#show-emp-modal-name").text("Name: " + employee.name);
                 $("#show-emp-modal-role").text("Role: " + employee.role.name);
                 $("#remove-employee-button").data("emp_id", employee.emp_id);
+                $("#edit-jobs-button").data("emp_id", employee.emp_id);
                 $("#show-employee-modal").css("display", "flex");
             });
     }
@@ -74,6 +89,23 @@ class App {
         });
     }
 
+    editJobs(Emp) {
+        this.#database.getEmployee($(Emp).data("emp_id")).then(
+            employee => {
+                $("#employee-jobs-list").css("display", "none");
+                $("#employee-jobs-select").css("display", "flex");
+                $("#edit-jobs-button").css("display", "none");
+                $("#save-jobs-button").css("display", "flex");
+            });
+    }
+
+    saveJobsSelection() {
+        $("#save-jobs-button").css("display", "none");
+        $("#edit-jobs-button").css("display", "flex");
+        $("#employee-jobs-select").css("display", "none");
+        $("#employee-jobs-list").css("display", "flex");
+    }
+
     updateTable() {
         return $.post({
             url: '../database/ajax.php',
@@ -81,11 +113,8 @@ class App {
             data: { FUNCTION: "GET_TABLE" },
             success: function (response) {
                 $("#schedule").html(response);
-                $(".employee-name,#submit-add-employee-button,#add-employee-button,#remove-employee-button").off();
+                $(".employee-name").off();
                 $(".employee-name").click(function () { App.getInstance().showEmpInfo(this); });
-                $("#submit-add-employee-button").click(() => { App.getInstance().submitAddEmployee() });
-                $("#add-employee-button").click(() => { $("#add-employee-modal").css("display", "flex"); });
-                $("#remove-employee-button").click(function () { App.getInstance().removeEmployee(this); });
             }
         });
     }

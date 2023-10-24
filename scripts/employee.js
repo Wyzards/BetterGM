@@ -28,7 +28,7 @@ class Employee {
     }
 
     toString() {
-        return JSON.stringify({ type: "employee", emp_id: this.#emp_id, name: this.#name, role: JSON.stringify(this.#role) });
+        return JSON.stringify({ type: "employee", emp_id: this.#emp_id, name: this.#name, role: JSON.stringify(this.#role), jobs: this.#jobs });
     }
 }
 

@@ -22,9 +22,14 @@
         <span id="span">
             <p id="show-emp-modal-name">Name:</p>
             <p id="show-emp-modal-role">Role:</p>
+            <button id="edit-jobs-button">Edit Jobs</button>
+            <button id="save-jobs-button" style="display:none">Save Jobs</button>
             <p>Jobs:</p>
             <ul id="employee-jobs-list">
             </ul>
+            <select id="employee-jobs-select" style="display:none" multiple>
+                <option value="test">Test</option>
+            </select>
             <button id="remove-employee-button">Remove Employee</button>
         </span>
     </div>
