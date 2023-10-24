@@ -1,4 +1,5 @@
 import { Database } from "./database.js";
+import { Role } from "./role.js";
 
 class App {
 
@@ -40,18 +41,11 @@ class App {
             $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection(this) });
 
 
-            
-
-            $.post({
-                url: "../database/ajax.php",
-                data: { FUNCTION: "GET_ROLE_LIST" },
-                success: function (response) {
-                    var roles = JSON.parse(response);
-                    roles.forEach((role, i) => {
-                        $("#add-employee-role-select").append("<option>" + role + "</option>");
-                    });
-                }
+            Role.roles.forEach((role, i) => {
+                $("#add-employee-role-select").append("<option>" + role.name + "</option>");
             });
+
+            Job
         });
     }
 
