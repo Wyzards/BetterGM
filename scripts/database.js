@@ -17,9 +17,6 @@ class Database {
         $.post({
             url: "../database/ajax.php",
             data: { FUNCTION: "DELETE_EMPLOYEE", emp_id: employee.emp_id },
-            success: result => {
-                console.log(result);
-            }
         });
         $("#show-employee-modal").css("display", "none");
         updateTable();

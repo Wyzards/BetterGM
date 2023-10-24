@@ -26,7 +26,6 @@ $(document).ready(function () {
 function removeEmployee(Emp) {
     var database = Database.getInstance();
     database.getEmployee($(Emp).data("emp_id")).then(employee => {
-        console.log("removeEmployee() employee = " + employee);
         database.removeEmployee(employee);
         updateTable();
     });

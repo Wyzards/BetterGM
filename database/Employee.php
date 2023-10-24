@@ -1,7 +1,7 @@
 <?php
 class Employee implements \JsonSerializable
 {
-    private int $emp_id;
+    private readonly int $emp_id;
     private Role $role;
     private string $name;
 
