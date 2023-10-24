@@ -2,8 +2,8 @@
 class Employee implements \JsonSerializable
 {
     private readonly int $emp_id;
-    private Role $role;
-    private string $name;
+    private readonly Role $role;
+    private readonly string $name;
 
     function __construct(int $emp_id, Role $role, string $name)
     {

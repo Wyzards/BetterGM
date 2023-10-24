@@ -1,6 +1,6 @@
 import { Employee } from "./employee.js";
 import { Role } from "./role.js";
-import { updateTable } from "./javascript.js";
+import { App } from "./app.js";
 
 class Database {
 
@@ -19,7 +19,7 @@ class Database {
             data: { FUNCTION: "DELETE_EMPLOYEE", emp_id: employee.emp_id },
         });
         $("#show-employee-modal").css("display", "none");
-        updateTable();
+        App.getInstance().updateTable();
     }
 
     getEmployee(emp_id) {

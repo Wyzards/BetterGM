@@ -3,8 +3,8 @@
 
 <head>
     <title>BetterGM Schedule Writer</title>
-    <script type="text/javascript" src="../scripts/jquery-3.7.1.min.js"></script>
-    <script type="module" src="../scripts/javascript.js"></script>
+    <script type="module" src="../scripts/lib/jquery-3.7.1.min.js"></script>
+    <script type="module" src="../scripts/app.js"></script>
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 
