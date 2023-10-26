@@ -13,13 +13,25 @@ class Database {
         return Database.#instance;
     }
 
+    setJobs(employee, jobs_array) {
+        return $.post({
+            url: "../database/ajax.php",
+            data: { FUNCTION: "SET_JOBS", emp_id: employee.emp_id, jobs: jobs_array.map(job => job.job_id) }
+        });
+    }
+
+    addNewEmployee(name, role) {
+        return $.post({
+            url: "../database/ajax.php",
+            data: { FUNCTION: "ADD_EMPLOYEE", name: name, role_id: role.role_id }
+        });
+    }
+
     removeEmployee(employee) {
         $.post({
             url: "../database/ajax.php",
             data: { FUNCTION: "DELETE_EMPLOYEE", emp_id: employee.emp_id },
         });
-        $("#show-employee-modal").css("display", "none");
-        App.getInstance().updateTable();
     }
 
     getEmployee(emp_id) {

@@ -6,11 +6,11 @@ class Job {
     static LINE = new Job(4, "LINE");
     static DIGITAL = new Job(5, "DIGITAL");
 
-    #id;
+    #job_id;
     #name;
 
-    constructor(id, name) {
-        this.#id = id;
+    constructor(job_id, name) {
+        this.#job_id = job_id;
         this.#name = name;
 
         if (!Job.jobs)
@@ -22,20 +22,20 @@ class Job {
     static tryFromName(name) {
         for (var job of Job.jobs)
             if (job.name === name)
-                return role;
+                return job;
 
         return null;
     }
 
-    static tryFromID(id) {
+    static tryFromID(job_id) {
         for (var job of Job.jobs)
-            if (job.id === id)
+            if (job.job_id === job_id)
                 return job;
         return null;
     }
 
-    get id() {
-        return this.#id;
+    get job_id() {
+        return this.#job_id;
     }
 
     get name() {
@@ -43,7 +43,7 @@ class Job {
     }
 
     toString() {
-        return JSON.stringify({ type: "job", id: this.#id, name: this.#name });
+        return JSON.stringify({ type: "job", id: this.#job_id, name: this.#name });
     }
 }
 

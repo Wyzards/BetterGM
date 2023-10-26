@@ -10,11 +10,11 @@ class Role {
     static R = new Role(8, "R");
     static CTM = new Role(9, "CTM");
 
-    #id;
+    #role_id;
     #name;
 
-    constructor(id, name) {
-        this.#id = id;
+    constructor(role_id, name) {
+        this.#role_id = role_id;
         this.#name = name;
 
         if (!Role.roles)
@@ -31,15 +31,15 @@ class Role {
         return null;
     }
 
-    static tryFromID(id) {
+    static tryFromID(role_id) {
         for (var role of Role.roles)
-            if (role.id === id)
+            if (role.role_id === role_id)
                 return role;
         return null;
     }
 
-    get id() {
-        return this.#id;
+    get role_id() {
+        return this.#role_id;
     }
 
     get name() {
@@ -47,7 +47,7 @@ class Role {
     }
 
     toString() {
-        return JSON.stringify({ type: "role", id: this.#id, name: this.#name });
+        return JSON.stringify({ type: "role", id: this.#role_id, name: this.#name });
     }
 }
 

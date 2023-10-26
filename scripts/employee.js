@@ -4,7 +4,7 @@ class Employee {
     #role;
     #jobs;
 
-    constructor(emp_id, name, role, jobs) {
+    constructor(emp_id, name, role, jobs = []) {
         this.#emp_id = emp_id;
         this.#name = name;
         this.#role = role;

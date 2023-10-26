@@ -7,8 +7,11 @@ if (array_key_exists("FUNCTION", $_POST)) {
     $database = Database::getInstance();
 
     switch ($_POST["FUNCTION"]) {
+        case "SET_JOBS":
+            $database->set_jobs_by_ids($database->get_employee_by_id($_POST["emp_id"]), $_POST["jobs"]);
+            break;
         case "ADD_EMPLOYEE":
-            $role = Role::get_role($_POST["role_name"]);
+            $role = Role::tryFrom($_POST["role_id"]);
             $result = new stdClass();
 
             if ($role == null)
