@@ -14,9 +14,14 @@ class Employee implements \JsonSerializable
         $this->jobs = $jobs;
     }
 
-    public static function makeEmployee(int $emp_id, Role $role, string $name): Employee
+    public static function make_employee(int $emp_id, Role $role, string $name): Employee
     {
         return new Employee($emp_id, $role, $name, []);
+    }
+
+    public static function make_employee_with_jobs(int $emp_id, Role $role, string $name, array $jobs): Employee
+    {
+        return new Employee($emp_id, $role, $name, $jobs);
     }
 
     public function jsonSerialize()

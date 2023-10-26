@@ -29,7 +29,7 @@ class App {
                 if ($(event.target).is($("#show-employee-modal"))) {
                     $("#show-employee-modal").css("display", "none");
                     $("#employee-jobs-select").css("display", "none");
-                    $("#employee-jobs-list").css("display", "flex");
+                    $("#employee-jobs-list").css("display", "block");
                     $("#edit-jobs-button").css("display", "flex");
                     $("#save-jobs-button").css("display", "none");
                 }
@@ -69,6 +69,12 @@ class App {
                 $("#edit-jobs-button").data("emp_id", employee.emp_id);
                 $("#save-jobs-button").data("emp_id", employee.emp_id);
                 $("#show-employee-modal").css("display", "flex");
+
+                console.log("EMPLOYEE: " + employee);
+
+                employee.jobs.forEach(job => {
+                    $("#employee-jobs-list").append("<li>" + job.name + "</li>");
+                })
             });
     }
 
@@ -101,7 +107,7 @@ class App {
                 $("#save-jobs-button").css("display", "none");
                 $("#edit-jobs-button").css("display", "flex");
                 $("#employee-jobs-select").css("display", "none");
-                $("#employee-jobs-list").css("display", "flex");
+                $("#employee-jobs-list").css("display", "block");
             });
         });
     }

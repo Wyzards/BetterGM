@@ -1,6 +1,7 @@
 import { Employee } from "./employee.js";
 import { Role } from "./role.js";
 import { App } from "./app.js";
+import { Job } from "./job.js";
 
 class Database {
 
@@ -41,7 +42,7 @@ class Database {
                 data: { FUNCTION: "GET_EMPLOYEE", emp_id: emp_id },
                 success: function (response) {
                     let empData = JSON.parse(response);
-                    let employee = new Employee(empData["emp_id"], empData["name"], Role.tryFromID(empData["role"]["value"]));
+                    let employee = new Employee(empData["emp_id"], empData["name"], Role.tryFromID(empData["role"]["value"]), empData["jobs"].map(job => Job.tryFromID(job["value"])));
                     resolve(employee);
                 }
             });
