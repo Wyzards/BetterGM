@@ -36,9 +36,15 @@
             <select id="employee-jobs-select" style="display:none" multiple>
             </select>
 
+            <!-- Availability -->
+            <button id="view-emp-avail-button">View Availability</button>
+            <br>
             <!-- Removal -->
             <button id="remove-employee-button">Remove Employee</button>
         </span>
+    </div>
+
+    <div id="show-emp-avail-modal" class="modal">
     </div>
 
 

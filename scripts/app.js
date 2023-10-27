@@ -1,14 +1,20 @@
 import { Database } from "./database.js";
 import { Role } from "./role.js";
 import { Job } from "./job.js";
+import { Modal } from "./modal.js";
 
 class App {
 
     static #instance;
+    #showEmployeeModal;
+    #addEmployeeModal;
+
     #database;
 
     constructor() {
         this.#database = Database.getInstance();
+        this.#showEmployeeModal = new Modal("#show-employee-modal");
+        this.#addEmployeeModal = new Modal("add-employee-modal", ["employee-jobs-list", "edit-jobs-button"], ["save-jobs-button", "employee-jobs-select"]);
     }
 
     static getInstance() {
@@ -23,18 +29,6 @@ class App {
 
     setup() {
         this.updateTable().then(function () {
-            window.onclick = function (event) {
-                if ($(event.target).is($("#add-employee-modal")))
-                    $("#add-employee-modal").css("display", "none");
-                if ($(event.target).is($("#show-employee-modal"))) {
-                    $("#show-employee-modal").css("display", "none");
-                    $("#employee-jobs-select").css("display", "none");
-                    $("#employee-jobs-list").css("display", "block");
-                    $("#edit-jobs-button").css("display", "flex");
-                    $("#save-jobs-button").css("display", "none");
-                }
-            }
-
             $("#submit-add-employee-button").click(() => { App.getInstance().submitAddEmployee() });
             $("#add-employee-button").click(() => { $("#add-employee-modal").css("display", "flex"); });
             $("#remove-employee-button").click(function () { App.getInstance().removeEmployee(this); });
