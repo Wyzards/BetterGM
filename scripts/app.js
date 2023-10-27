@@ -15,6 +15,8 @@ class App {
         this.#database = Database.getInstance();
         this.#showEmployeeModal = new Modal("#show-employee-modal");
         this.#addEmployeeModal = new Modal("add-employee-modal", ["employee-jobs-list", "edit-jobs-button"], ["save-jobs-button", "employee-jobs-select"]);
+
+        this.setup();
     }
 
     static getInstance() {
@@ -86,11 +88,15 @@ class App {
             });
     }
 
+    // Likely should be migrated to modal...
     editJobs() {
+        this.#database.getEmployee($("#edit-jobs-button").data("emp_id")).then(employee => {
+            $("#employee-jobs-select").val(employee.jobs.map(job => job.name));
+        });
         $("#employee-jobs-list").css("display", "none");
-        $("#employee-jobs-select").css("display", "flex");
+        $("#employee-jobs-select").css("display", "block");
         $("#edit-jobs-button").css("display", "none");
-        $("#save-jobs-button").css("display", "flex");
+        $("#save-jobs-button").css("display", "block");
     }
 
     saveJobsSelection(emp_id) {
@@ -127,9 +133,7 @@ class App {
 }
 
 $(document).ready(function () {
-    let app = App.getInstance();
-
-    app.setup();
+    App.getInstance();
 });
 
 export { App };
