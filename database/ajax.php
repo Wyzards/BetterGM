@@ -52,7 +52,7 @@ if (array_key_exists("FUNCTION", $_POST)) {
             foreach ($employees as $employee):
                 $content .= '<tr>
                     <td>' .
-                    strtr("<p class='employee-name' data-emp-id='@emp-id'>@emp-name</p>", ["@emp-id" => $employee["emp_id"], "@emp-name" => $employee["name"]]) .
+                    strtr("<p class='employee-name' data-emp_id='@emp-id'>@emp-name</p>", ["@emp-id" => $employee["emp_id"], "@emp-name" => $employee["name"]]) .
                     '</td>';
 
                 for ($x = 0; $x < 7; $x++) {

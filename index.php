@@ -6,6 +6,8 @@
     <script type="module" src="../scripts/lib/jquery-3.7.1.min.js"></script>
     <script type="module" src="../scripts/app.js"></script>
     <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="icon" href="icons/favicon.ico">
+    <link rel="shortcut icon" href="icons/favicon.ico">
 </head>
 
 <body>

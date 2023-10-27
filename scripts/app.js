@@ -39,7 +39,7 @@ class App {
             $("#add-employee-button").click(() => { $("#add-employee-modal").css("display", "flex"); });
             $("#remove-employee-button").click(function () { App.getInstance().removeEmployee(this); });
             $("#edit-jobs-button").click(function () { App.getInstance().editJobs() });
-            $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection(this) });
+            $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection($(this).data("emp_id")) });
 
 
             Role.roles.forEach(role => {
@@ -60,21 +60,22 @@ class App {
         });
     }
 
-    showEmpInfo(Emp) {
-        this.#database.getEmployee($(Emp).data("emp-id")).then(
+    showEmpInfo(emp_id) {
+        this.#database.getEmployee(emp_id).then(
             employee => {
+                // Data
+                $("#remove-employee-button").data("emp_id", employee.emp_id);
+                $("#save-jobs-button").data("emp_id", employee.emp_id);
+                $("#edit-jobs-button").data("emp_id", employee.emp_id);
+
                 $("#show-emp-modal-name").text("Name: " + employee.name);
                 $("#show-emp-modal-role").text("Role: " + employee.role.name);
-                $("#remove-employee-button").data("emp_id", employee.emp_id);
-                $("#edit-jobs-button").data("emp_id", employee.emp_id);
-                $("#save-jobs-button").data("emp_id", employee.emp_id);
                 $("#show-employee-modal").css("display", "flex");
 
-                console.log("EMPLOYEE: " + employee);
-
+                $("#employee-jobs-list").empty();
                 employee.jobs.forEach(job => {
                     $("#employee-jobs-list").append("<li>" + job.name + "</li>");
-                })
+                });
             });
     }
 
@@ -98,8 +99,8 @@ class App {
         $("#save-jobs-button").css("display", "flex");
     }
 
-    saveJobsSelection(Emp) {
-        this.#database.getEmployee($(Emp).data("emp_id")).then(employee => {
+    saveJobsSelection(emp_id) {
+        this.#database.getEmployee(emp_id).then(employee => {
             var stringVals = $("#employee-jobs-select").val();
             var jobs = stringVals.map(jobName => Job.tryFromName(jobName));
 
@@ -108,6 +109,8 @@ class App {
                 $("#edit-jobs-button").css("display", "flex");
                 $("#employee-jobs-select").css("display", "none");
                 $("#employee-jobs-list").css("display", "block");
+
+                App.getInstance().showEmpInfo(emp_id);
             });
         });
     }
@@ -120,7 +123,9 @@ class App {
             success: function (response) {
                 $("#schedule").html(response);
                 $(".employee-name").off();
-                $(".employee-name").click(function () { App.getInstance().showEmpInfo(this); });
+                $(".employee-name").click(function () {
+                    App.getInstance().showEmpInfo($(this).data("emp_id"));
+                });
             }
         });
     }
