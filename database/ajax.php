@@ -8,7 +8,10 @@ if (array_key_exists("FUNCTION", $_POST)) {
 
     switch ($_POST["FUNCTION"]) {
         case "SET_JOBS":
-            $database->set_jobs_by_ids($database->get_employee_by_id($_POST["emp_id"]), $_POST["jobs"]);
+            if (array_key_exists("jobs", $_POST))
+                $database->set_jobs_by_ids($database->get_employee_by_id($_POST["emp_id"]), $_POST["jobs"]);
+            else
+                $database->clear_jobs($database->get_employee_by_id($_POST["emp_id"]));
             break;
         case "ADD_EMPLOYEE":
             $role = Role::tryFrom($_POST["role_id"]);
