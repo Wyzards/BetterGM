@@ -5,6 +5,7 @@ class Employee implements \JsonSerializable
     private readonly Role $role;
     private readonly string $name;
     private readonly array $jobs;
+    private readonly array $schedule_template;
 
     private function __construct(int $emp_id, Role $role, string $name, array $jobs)
     {
