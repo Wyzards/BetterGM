@@ -44,7 +44,17 @@
         </span>
     </div>
 
-    <div id="show-emp-avail-modal" class="modal">
+    <div id="emp-avail-modal" class="modal">
+        <p>Availability</p>
+        <p>10/20/2020 - 10/20/2023</p>
+        <p>Mon</p>
+        <p>Tue</p>
+        <p>Wed</p>
+        <p>Thu</p>
+        <p>Fri</p>
+        <p>Sat</p>
+        <p>Sun</p>
+        <button id="edit-emp-avail-button">Edit Availability</button>
     </div>
 
 

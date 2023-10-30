@@ -8,13 +8,15 @@ class App {
     static #instance;
     #showEmployeeModal;
     #addEmployeeModal;
+    #empAvailModal;
 
     #database;
 
     constructor() {
         this.#database = Database.getInstance();
-        this.#showEmployeeModal = new Modal("#show-employee-modal");
+        this.#showEmployeeModal = new Modal("show-employee-modal");
         this.#addEmployeeModal = new Modal("add-employee-modal", ["employee-jobs-list", "edit-jobs-button"], ["save-jobs-button", "employee-jobs-select"]);
+        this.#empAvailModal = new Modal("emp-avail-modal");
 
         this.setup();
     }
@@ -29,13 +31,19 @@ class App {
         return this.#database;
     }
 
+    get empAvailModal() {
+        return this.#empAvailModal;
+    }
+
     setup() {
+        var app = this;
         this.updateTable().then(function () {
             $("#submit-add-employee-button").click(() => { App.getInstance().submitAddEmployee() });
-            $("#add-employee-button").click(() => { $("#add-employee-modal").css("display", "flex"); });
+            $("#add-employee-button").click(() => { app.#addEmployeeModal.show() });
             $("#remove-employee-button").click(function () { App.getInstance().removeEmployee(this); });
             $("#edit-jobs-button").click(function () { App.getInstance().editJobs() });
             $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection($(this).data("emp_id")) });
+            $("#view-emp-avail-button").click(function () { app.empAvailModal.show() });
 
 
             Role.roles.forEach(role => {
@@ -57,6 +65,7 @@ class App {
     }
 
     showEmpInfo(emp_id) {
+        var app = this;
         this.#database.getEmployee(emp_id).then(
             employee => {
                 // Data
@@ -66,7 +75,7 @@ class App {
 
                 $("#show-emp-modal-name").text("Name: " + employee.name);
                 $("#show-emp-modal-role").text("Role: " + employee.role.name);
-                $("#show-employee-modal").css("display", "flex");
+                app.#showEmployeeModal.show();
 
                 $("#employee-jobs-list").empty();
                 employee.jobs.forEach(job => {
@@ -116,6 +125,7 @@ class App {
     }
 
     updateTable() {
+        var app = this;
         return $.post({
             url: '../database/ajax.php',
             dataType: 'json',

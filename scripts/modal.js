@@ -12,20 +12,11 @@ class Modal {
         var modal = this;
 
         window.addEventListener("click", function (event) {
-            if ($(event.target).is($(modal.id)))
-                modal.hide();
-        });
+            console.log("event.target.id = " + $(event.target).prop("outerHTML"));
+            //console.log("modal.id = " + $(modal).id);
 
-        window.addEventListener("click", function (event) {
-            if ($(event.target).is($("#add-employee-modal")))
-                $("#add-employee-modal").css("display", "none");
-            if ($(event.target).is($("#show-employee-modal"))) {
-                $("#show-employee-modal").css("display", "none");
-                $("#employee-jobs-select").css("display", "none");
-                $("#employee-jobs-list").css("display", "block");
-                $("#edit-jobs-button").css("display", "block");
-                $("#save-jobs-button").css("display", "none");
-            }
+            //if ($(event.target).is($(modal)))
+            //   modal.hide();
         });
     }
 
@@ -35,9 +26,20 @@ class Modal {
 
     show() {
         $(".modal").css("display", "none");
-        $("#" + this.#showByDefault.join(",#")).css("display", "block");
-        $("#" + this.#hideByDefault.join(",#")).css("display", "none");
-        $(this.#id).css("display", "flex");
+
+        if (this.#showByDefault.length > 0) {
+            let selector = "#" + this.#showByDefault.join(",#");
+            console.log("show selector: " + selector);
+            $(selector).css("display", "block");
+        }
+
+        if (this.#hideByDefault.length > 0) {
+            let selector = "#" + this.#hideByDefault.join(",#");
+            console.log("hide selector: " + selector);
+            $("#" + selector).css("display", "none");
+        }
+
+        $("#" + this.#id).css("display", "flex");
     }
 
     hide() {
