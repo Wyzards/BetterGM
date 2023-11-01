@@ -24,7 +24,14 @@ class Database {
     addNewEmployee(name, role) {
         return $.post({
             url: "../database/ajax.php",
-            data: { FUNCTION: "ADD_EMPLOYEE", name: name, role_id: role.role_id }
+            data: { FUNCTION: "ADD_EMPLOYEE", name: name, role_id: role.role_id },
+            success: function (result) {
+                if (JSON.parse(result) == "NAME_TOO_SHORT") {
+                    alert("Employee name must be at least 1 letter");
+                } else {
+                    App.getInstance().addEmployeeModal.hide();
+                }
+            }
         });
     }
 
@@ -32,7 +39,8 @@ class Database {
         $.post({
             url: "../database/ajax.php",
             data: { FUNCTION: "DELETE_EMPLOYEE", emp_id: employee.emp_id },
-        });
+            success: App.getInstance().showEmployeeModal.hide()
+        })
     }
 
     getEmployee(emp_id) {

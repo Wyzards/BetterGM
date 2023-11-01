@@ -53,12 +53,16 @@ class Database
 
     function add_employee(string $name, Role $role)
     {
+        if (strlen($name) == 0)
+            throw new Exception("Employee name must be longer than 0 characters");
+
         $sql = $this->sql;
         $sql->execute_query("INSERT INTO Employees (name, role_id) VALUES (?, ?)", [$name, $role->value]);
     }
 
     function delete_employee(Employee $employee): void
     {
+        $this->sql->execute_query("DELETE FROM emp_jobs WHERE emp_id = ?", [$employee->emp_id]);
         $this->sql->execute_query("DELETE FROM Employees WHERE emp_id = ?", [$employee->emp_id]);
     }
 
@@ -66,6 +70,11 @@ class Database
     {
         $table_query = $this->sql->query("SELECT emp_id,name,role_id FROM employees");
         return $table_query->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function create_empty_availability_pattern(Employee $employee, Date $date): void
+    {
+
     }
 
     function get_employee_by_id(int $emp_id): Employee

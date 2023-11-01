@@ -14,6 +14,11 @@ if (array_key_exists("FUNCTION", $_POST)) {
                 $database->clear_jobs($database->get_employee_by_id($_POST["emp_id"]));
             break;
         case "ADD_EMPLOYEE":
+            if (strlen($_POST["name"]) < 1) {
+                echo json_encode("NAME_TOO_SHORT");
+                break;
+            }
+
             $role = Role::tryFrom($_POST["role_id"]);
             $result = new stdClass();
 

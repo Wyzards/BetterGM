@@ -45,16 +45,52 @@
     </div>
 
     <div id="emp-avail-modal" class="modal">
-        <p>Availability</p>
-        <p>10/20/2020 - 10/20/2023</p>
-        <p>Mon</p>
-        <p>Tue</p>
-        <p>Wed</p>
-        <p>Thu</p>
-        <p>Fri</p>
-        <p>Sat</p>
-        <p>Sun</p>
-        <button id="edit-emp-avail-button">Edit Availability</button>
+        <span id="span">
+            <p>Availability</p>
+            <p>10/20/2020 - 10/20/2023</p>
+            <p>Mon</p>
+            <p>Tue</p>
+            <p>Wed</p>
+            <p>Thu</p>
+            <p>Fri</p>
+            <p>Sat</p>
+            <p>Sun</p>
+            <button id="edit-emp-avail-button">Edit Availability</button>
+        </span>
+    </div>
+
+    <div id="select-avail-pattern-date-modal" class="modal">
+        <span id="span">
+            <p>Start Date</p>
+            <input id="pattern-date-input" type="date">
+            <button id="submit-new-pattern">Create New Pattern</button>
+        </span>
+    </div>
+
+    <div id="edit-emp-avail-modal" class="modal">
+        <span id="span">
+            <button id="add-avail-pattern">Add Pattern</button>
+            <!-- EMPTY WEEK 
+            <p>Pattern 1</p> <button>Add Pattern</button>
+            <p>Effective from 01/01/2023-FOREVER</p>
+            <p>Week 1</p>
+            <p class="avail-day">Monday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <p class="avail-day">Tuesday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <p class="avail-day">Wednesday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <p class="avail-day">Thursday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <p class="avail-day">Friday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <p class="avail-day">Saturday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <p class="avail-day">Sunday:</p>
+            <p class="avail-day" contenteditable="true">12A-12A</p>
+            <button style="display:block">Add Week</button>
+            -->
+        </span>
     </div>
 
 

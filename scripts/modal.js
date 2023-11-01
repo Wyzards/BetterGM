@@ -12,11 +12,11 @@ class Modal {
         var modal = this;
 
         window.addEventListener("click", function (event) {
-            console.log("event.target.id = " + $(event.target).prop("outerHTML"));
-            //console.log("modal.id = " + $(modal).id);
+            var target = $(event.target);
+            var modal_target = $("#" + modal.id);
 
-            //if ($(event.target).is($(modal)))
-            //   modal.hide();
+            if (target.is(modal_target))
+                modal_target.hide();
         });
     }
 
@@ -27,23 +27,17 @@ class Modal {
     show() {
         $(".modal").css("display", "none");
 
-        if (this.#showByDefault.length > 0) {
-            let selector = "#" + this.#showByDefault.join(",#");
-            console.log("show selector: " + selector);
-            $(selector).css("display", "block");
-        }
-
-        if (this.#hideByDefault.length > 0) {
-            let selector = "#" + this.#hideByDefault.join(",#");
-            console.log("hide selector: " + selector);
-            $("#" + selector).css("display", "none");
-        }
+        if (this.#showByDefault.length > 0)
+            $("#" + this.#showByDefault.join(",#")).css("display", "block");
+        if (this.#hideByDefault.length > 0)
+            $("#" + this.#hideByDefault.join(",#")).css("display", "none");
 
         $("#" + this.#id).css("display", "flex");
     }
 
     hide() {
-        $(this.#id).css("display", "none");
+        $("#" + this.#id).css("display", "none");
+        $("#" + this.#id).children("span").children("input").val("");
     }
 
 }

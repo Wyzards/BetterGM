@@ -9,6 +9,8 @@ class App {
     #showEmployeeModal;
     #addEmployeeModal;
     #empAvailModal;
+    #editEmpAvailModal;
+    #selectPatternDateModal;
 
     #database;
 
@@ -17,6 +19,8 @@ class App {
         this.#showEmployeeModal = new Modal("show-employee-modal");
         this.#addEmployeeModal = new Modal("add-employee-modal", ["employee-jobs-list", "edit-jobs-button"], ["save-jobs-button", "employee-jobs-select"]);
         this.#empAvailModal = new Modal("emp-avail-modal");
+        this.#editEmpAvailModal = new Modal("edit-emp-avail-modal");
+        this.#selectPatternDateModal = new Modal("select-avail-pattern-date-modal");
 
         this.setup();
     }
@@ -31,20 +35,38 @@ class App {
         return this.#database;
     }
 
-    get empAvailModal() {
-        return this.#empAvailModal;
+    get addEmployeeModal() {
+        return this.#addEmployeeModal;
+    }
+
+    get showEmployeeModal() {
+        return this.#showEmployeeModal;
+    }
+
+    get selectPatternDateModal() {
+        return this.#selectPatternDateModal;
     }
 
     setup() {
         var app = this;
         this.updateTable().then(function () {
-            $("#submit-add-employee-button").click(() => { App.getInstance().submitAddEmployee() });
-            $("#add-employee-button").click(() => { app.#addEmployeeModal.show() });
+            $("#submit-add-employee-button").click(() => { App.getInstance().submitAddEmployee(); });
+            $("#add-employee-button").click(() => { app.#addEmployeeModal.show(); });
             $("#remove-employee-button").click(function () { App.getInstance().removeEmployee(this); });
-            $("#edit-jobs-button").click(function () { App.getInstance().editJobs() });
-            $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection($(this).data("emp_id")) });
-            $("#view-emp-avail-button").click(function () { app.empAvailModal.show() });
+            $("#edit-jobs-button").click(function () { App.getInstance().editJobs(); });
+            $("#save-jobs-button").click(function () { App.getInstance().saveJobsSelection($(this).data("emp_id")); });
+            $("#view-emp-avail-button").click(function () { app.#empAvailModal.show(); });
+            $("#edit-emp-avail-button").click(function () {
+                app.#editEmpAvailModal.show();
+            });
+            $("#add-avail-pattern").click(function () {
+                app.#selectPatternDateModal.show();
+            });
 
+            var now = new Date();
+            var today = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDate());
+
+            $('#pattern-date-input').val(today);
 
             Role.roles.forEach(role => {
                 $("#add-employee-role-select").append("<option>" + role.name + "</option>");
@@ -57,10 +79,13 @@ class App {
     }
 
     removeEmployee(Emp) {
+        var app = this;
+
         this.#database.getEmployee($(Emp).data("emp_id")).then((employee) => {
             App.getInstance().database.removeEmployee(employee);
             App.getInstance().updateTable();
-            $("#show-employee-modal").css("display", "none");
+
+            app.#showEmployeeModal.hide();
         });
     }
 
@@ -75,23 +100,25 @@ class App {
 
                 $("#show-emp-modal-name").text("Name: " + employee.name);
                 $("#show-emp-modal-role").text("Role: " + employee.role.name);
-                app.#showEmployeeModal.show();
 
                 $("#employee-jobs-list").empty();
                 employee.jobs.forEach(job => {
                     $("#employee-jobs-list").append("<li>" + job.name + "</li>");
                 });
+
+                app.#showEmployeeModal.show();
             });
     }
 
     // Attempts to add an employee based on user input
     submitAddEmployee() {
-        this.#database.addNewEmployee($("#add-employee-name-input").val(), Role.tryFromName($("#add-employee-role-select").find(":selected").val()))
+        var app = this;
+        app.#database.addNewEmployee($("#add-employee-name-input").val(), Role.tryFromName($("#add-employee-role-select").find(":selected").val()))
             .then(response => {
                 if (JSON.parse(response)["response"] == "invalid role")
                     alert("Something went wrong: The role you tried to set does not exist. Refresh the page and try again.");
                 else {
-                    $("#add-employee-modal").css("display", "none");
+                    app.#addEmployeeModal.hide();
                     App.getInstance().updateTable();
                 }
             });
