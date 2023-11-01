@@ -28,3 +28,7 @@ th {
     background-color: white;
     padding: 10px;
 }
+
+.avail-day {
+    display: inline-block;
+}
