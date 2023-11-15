@@ -15,10 +15,11 @@ class Database
         $sql->query("CREATE TABLE IF NOT EXISTS Employees (emp_id INT NOT NULL AUTO_INCREMENT, name varchar(100) NOT NULL, role_id INT UNSIGNED NOT NULL, PRIMARY KEY (emp_id))");
         $sql->query("CREATE TABLE IF NOT EXISTS Emp_Jobs (emp_id INT NOT NULL REFERENCES employees(emp_id), job_id INT UNSIGNED NOT NULL, PRIMARY KEY (emp_id, job_id))");
         $sql->query("CREATE TABLE IF NOT EXISTS Day_Avail (day_id INT NOT NULL AUTO_INCREMENT, avail VARCHAR(40), unavail VARCHAR(40), prefer VARCHAR(40), prefernot VARCHAR(40), PRIMARY KEY (day_id))");
-        $sql->query("CREATE TABLE IF NOT EXISTS Week_Avail (week_avail_id INT NOT NULL AUTO_INCREMENT, monday_id INT NOT NULL REFERENCES day_avail(day_id), tuesday_id INT NOT NULL REFERENCES day_avail(day_id), wednesday_id INT NOT NULL REFERENCES day_avail(day_id), thursday_id INT NOT NULL REFERENCES day_avail(day_id), friday_id INT NOT NULL REFERENCES day_avail(day_id), saturday_id INT NOT NULL REFERENCES day_avail(day_id), sunday_id INT NOT NULL REFERENCES day_avail(day_id), min_hours INT DEFAULT 0, max_hours INT DEFAULT 37, PRIMARY KEY (week_avail_id))");
-        $sql->query("CREATE TABLE IF NOT EXISTS Emp_Avail (emp_id INT NOT NULL REFERENCES Employees(emp_id), week_num INT UNSIGNED NOT NULL, week_avail_id INT NOT NULL REFERENCES Week_Avail(week_avail_id), effective_date DATE)");
-        $sql->query("CREATE TABLE IF NOT EXISTS Sched_Week_Template (week_template_id INT NOT NULL AUTO_INCREMENT, monday VARCHAR(40), tuesday VARCHAR(40), wednesday VARCHAR(40), thursday VARCHAR(40), friday VARCHAR(40), saturday VARCHAR(40), sunday VARCHAR(40), PRIMARY KEY (week_template_id))");
+        $sql->query("CREATE TABLE IF NOT EXISTS Schedule_Patterns (pattern_id INT NOT NULL AUTO_INCREMENT, week_num INT NOT NULL, monday_id INT NOT NULL REFERENCES day_avail(day_id), tuesday_id INT NOT NULL REFERENCES day_avail(day_id), wednesday_id INT NOT NULL REFERENCES day_avail(day_id), thursday_id INT NOT NULL REFERENCES day_avail(day_id), friday_id INT NOT NULL REFERENCES day_avail(day_id), saturday_id INT NOT NULL REFERENCES day_avail(day_id), sunday_id INT NOT NULL REFERENCES day_avail(day_id), min_hours INT DEFAULT 0, max_hours INT DEFAULT 37, PRIMARY KEY (pattern_id, week_num))");
+        $sql->query("CREATE TABLE IF NOT EXISTS Emp_Avail (emp_id INT NOT NULL REFERENCES Employees(emp_id), pattern_id INT NOT NULL REFERENCES Schedule_Patterns(pattern_id), effective_date DATE)");
         $sql->query("CREATE TABLE IF NOT EXISTS Emp_Sched_Template (emp_id INT NOT NULL REFERENCES Employees(emp_id), week INT UNSIGNED NOT NULL, week_id INT NOT NULL REFERENCES sched_week_template(week_template_id), PRIMARY KEY(emp_id, week));");
+        $sql->query("CREATE TABLE IF NOT EXISTS Sched_Week_Template (week_template_id INT NOT NULL AUTO_INCREMENT, monday VARCHAR(40), tuesday VARCHAR(40), wednesday VARCHAR(40), thursday VARCHAR(40), friday VARCHAR(40), saturday VARCHAR(40), sunday VARCHAR(40), PRIMARY KEY (week_template_id))");
+
     }
 
     public static function getInstance()
@@ -72,9 +73,11 @@ class Database
         return $table_query->fetch_all(MYSQLI_ASSOC);
     }
 
-    function create_empty_availability_pattern(Employee $employee, Date $date): void
+    function create_empty_availability_pattern(Employee $employee, string $date): void
     {
+        $next_id = $this->sql->execute_query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?", ["bettergm", "day_avail"])->fetch_array()[0];
 
+        throw new Exception("NEXT ID IS " . $next_id);
     }
 
     function get_employee_by_id(int $emp_id): Employee

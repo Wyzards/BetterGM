@@ -7,6 +7,9 @@ if (array_key_exists("FUNCTION", $_POST)) {
     $database = Database::getInstance();
 
     switch ($_POST["FUNCTION"]) {
+        case "CREATE_EMPTY_AVAIL_PATTERN":
+            $database->create_empty_availability_pattern($database->get_employee_by_id($_POST["emp_id"]), date("Y-m-d"));
+            break;
         case "SET_JOBS":
             if (array_key_exists("jobs", $_POST))
                 $database->set_jobs_by_ids($database->get_employee_by_id($_POST["emp_id"]), $_POST["jobs"]);

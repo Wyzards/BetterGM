@@ -62,6 +62,11 @@ class App {
             $("#add-avail-pattern").click(function () {
                 app.#selectPatternDateModal.show();
             });
+            $("#submit-new-pattern").click(function () {
+                app.#database.getEmployee($(this).data("emp_id")).then(employee => {
+                    app.#database.createEmptyAvailPattern(employee);
+                });
+            });
 
             var now = new Date();
             var today = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + (now.getDate());
@@ -97,6 +102,7 @@ class App {
                 $("#remove-employee-button").data("emp_id", employee.emp_id);
                 $("#save-jobs-button").data("emp_id", employee.emp_id);
                 $("#edit-jobs-button").data("emp_id", employee.emp_id);
+                $("#submit-new-pattern").data("emp_id", employee.emp_id);
 
                 $("#show-emp-modal-name").text("Name: " + employee.name);
                 $("#show-emp-modal-role").text("Role: " + employee.role.name);

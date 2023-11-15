@@ -40,7 +40,15 @@ class Database {
             url: "../database/ajax.php",
             data: { FUNCTION: "DELETE_EMPLOYEE", emp_id: employee.emp_id },
             success: App.getInstance().showEmployeeModal.hide()
-        })
+        });
+    }
+
+    createEmptyAvailPattern(employee) {
+        console.log("called createEmptyAvailPattern() on", employee);
+        $.post({
+            url: "../database/ajax.php",
+            data: { FUNCTION: "CREATE_EMPTY_AVAIL_PATTERN", emp_id: employee.emp_id }
+        });
     }
 
     getEmployee(emp_id) {
